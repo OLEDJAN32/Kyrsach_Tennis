@@ -67,17 +67,77 @@ int main(int argc, char* args[])
         SDL_Surface* Menu_fon1 = IMG_Load("Menu_fon.jpg");
         SDL_Texture* Menu_fon = SDL_CreateTextureFromSurface(renderer, Menu_fon1);
         SDL_FreeSurface(Menu_fon1);
+
+        SDL_Surface* Start1 = IMG_Load("Start.bmp");
+        SDL_Texture* Start = SDL_CreateTextureFromSurface(renderer, Start1);
+        SDL_FreeSurface(Start1);
+
+        SDL_Surface* Start_1 = IMG_Load("Start2.bmp");
+        SDL_Texture* Start2 = SDL_CreateTextureFromSurface(renderer, Start_1);
+        SDL_FreeSurface(Start_1);
+
+        SDL_Surface* Settings1 = IMG_Load("Settings.bmp");
+        SDL_Texture* Settings = SDL_CreateTextureFromSurface(renderer, Settings1);
+        SDL_FreeSurface(Settings1);
+
+        SDL_Surface* Settings_1 = IMG_Load("Settings2.bmp");
+        SDL_Texture* Settings2 = SDL_CreateTextureFromSurface(renderer, Settings_1);
+        SDL_FreeSurface(Settings_1);
+
+        SDL_Surface* Records1 = IMG_Load("Records.bmp");
+        SDL_Texture* Records = SDL_CreateTextureFromSurface(renderer, Records1);
+        SDL_FreeSurface(Records1);
+
+        SDL_Surface* Records_1 = IMG_Load("Records2.bmp");
+        SDL_Texture* Records2 = SDL_CreateTextureFromSurface(renderer, Records_1);
+        SDL_FreeSurface(Records_1);
+
+        SDL_Surface* Back1 = IMG_Load("Back.bmp");
+        SDL_Texture* Back = SDL_CreateTextureFromSurface(renderer, Back1);
+        SDL_FreeSurface(Records1);
+
+        SDL_Surface* Back_1 = IMG_Load("Back2.bmp");
+        SDL_Texture* Back2 = SDL_CreateTextureFromSurface(renderer, Back_1);
+        SDL_FreeSurface(Back_1);
+
+        SDL_Rect knopka[4];
+        knopka[0] = { 470,250, 300, 115 };
+        knopka[1] = { 470,380, 300, 115 };
+        knopka[2] = { 470,510, 300, 115 };
+        knopka[3] = { 470,640, 300, 115 };
+        
         SDL_Event event;
         bool quit = false;
+        int x = 0, y = 0;
         while (!quit)
         {
             SDL_PollEvent(&event);
             if (event.type == SDL_QUIT) quit = true;
 
             SDL_RenderCopy(renderer, Menu_fon, NULL, NULL);
-
+            SDL_RenderCopy(renderer, Start, NULL, &knopka[0]);
+            SDL_RenderCopy(renderer, Settings, NULL, &knopka[1]);
+            SDL_RenderCopy(renderer, Records, NULL, &knopka[2]);
+            SDL_RenderCopy(renderer, Back, NULL, &knopka[3]);
+            SDL_GetMouseState(&x, &y);
+            for (int i = 0; i < 4; i++)
+            {
+                if ((x > knopka[i].x && x < knopka[i].x + knopka[i].w) && (y > knopka[i].y && y < knopka[i].y + knopka[i].h))
+                {
+                    if (i == 0) SDL_RenderCopy(renderer, Start2, NULL, &knopka[0]);
+                    if (i == 1) SDL_RenderCopy(renderer, Settings2, NULL, &knopka[1]);
+                    if (i == 2) SDL_RenderCopy(renderer, Records2, NULL, &knopka[2]);
+                    if (i == 3) SDL_RenderCopy(renderer, Back2, NULL, &knopka[3]);
+                }
+            }
             SDL_RenderPresent(renderer);
         }
+        SDL_DestroyTexture(Records2);
+        SDL_DestroyTexture(Records);
+        SDL_DestroyTexture(Settings2);
+        SDL_DestroyTexture(Settings);
+        SDL_DestroyTexture(Start2);
+        SDL_DestroyTexture(Start);
         SDL_DestroyTexture(Menu_fon);
         SDL_DestroyRenderer(renderer);
     }
