@@ -4,12 +4,12 @@
 #include"SDL_ttf.h"
 #include"SDL_image.h"
 #include"SDL_mixer.h"
+#include"Play.h"
 #include<Windows.h>
 
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 800;
 SDL_Window* window = NULL;
-SDL_Surface* screenSurface = NULL;
 Mix_Chunk* Sound = NULL;
 Mix_Music* fon = NULL;
 bool init();
@@ -107,7 +107,7 @@ int main(int argc, char* args[])
         knopka[3] = { 470,640, 300, 115 };
         
         SDL_Event event;
-        bool quit = false;
+        bool quit = false, p=false;
         int x = 0, y = 0;
         while (!quit)
         {
@@ -130,7 +130,23 @@ int main(int argc, char* args[])
                     if (i == 3) SDL_RenderCopy(renderer, Back2, NULL, &knopka[3]);
                 }
             }
+
+            if (event.button.button == SDL_BUTTON_LEFT)
+            {
+                if ((event.button.x > knopka[0].x) && (event.button.x < knopka[0].x + knopka[0].w) && (event.button.y > knopka[0].y) && (event.button.y < knopka[0].y + knopka[0].h) && p==false)
+                {
+                    p = true;
+                    play(renderer);
+                }
+
+                if ((event.button.x > knopka[3].x) && (event.button.x < knopka[3].x + knopka[3].w) && (event.button.y > knopka[3].y) && (event.button.y < knopka[3].y + knopka[3].h))
+                {
+                    quit = true;
+                }
+
+            }
             SDL_RenderPresent(renderer);
+            SDL_Delay(16);
         }
         SDL_DestroyTexture(Records2);
         SDL_DestroyTexture(Records);
