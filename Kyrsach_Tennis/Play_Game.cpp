@@ -20,6 +20,8 @@ void play(SDL_Renderer*& renderer)
     SDL_Rect Rocket_place = { 198,370, 10,80 };
     SDL_Rect Rocket_place2 = { 992,370, 10,80 };
     int x = 0, y = 0;
+    int x3, y3, x1 = 600, y1 = 412, x2 = 8, y2 = 8;
+    double f;
     bool p = false;
     while (!p)
     {
@@ -29,6 +31,24 @@ void play(SDL_Renderer*& renderer)
         SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
         SDL_GetMouseState(&x, &y);
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+        x1 += x2;
+        y1 += y2;
+        if ((x1 + 10 > Rocket_place2.x) || (x1 - 10 < Rocket_place.x)) {
+            x2 = -x2;
+        }
+        if ((y1 + 10 > 624) || (y1 - 10 < 200)) {
+            y2 = -y2;
+        }
+        for (int R = 10; R >= 0; R--) {
+            for (int i = 0; i <= 1350; i++) {
+                f = i * (3.14 / 180);
+                x3 = int(x1 + cos(f) * R);
+                y3 = int(-(-y1 + sin(f) * R));
+                SDL_RenderDrawPoint(renderer, x3, y3);
+            }
+        }
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_w) && Rocket_place.y>=205)
         {
