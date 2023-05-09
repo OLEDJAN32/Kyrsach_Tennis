@@ -1,4 +1,5 @@
 #include"Play.h"
+#include"Pause.h"
 
 void play(SDL_Renderer*& renderer)
 {
@@ -12,18 +13,22 @@ void play(SDL_Renderer*& renderer)
     SDL_Texture* Blue_table = SDL_CreateTextureFromSurface(renderer, Blue_table1);
     SDL_FreeSurface(Blue_table1);
 
-    //SDL_RenderCopy(renderer, Play_fon, NULL, NULL);
+    int x = 0, y = 0;
     bool p = false;
     while (!p)
     {
         SDL_PollEvent(&event);
         SDL_RenderCopy(renderer, Play_fon, NULL, NULL);
         SDL_RenderCopy(renderer, Blue_table, NULL, &table);
+        SDL_GetMouseState(&x, &y);
+
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_ESCAPE))
         {
-            p = true;
+            menu_pause(renderer, p);
         }
+        
         SDL_RenderPresent(renderer);
+        SDL_Delay(16);
     }
     if (p == true)
     {

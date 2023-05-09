@@ -145,6 +145,7 @@ int main(int argc, char* args[])
                 }
 
             }
+            p = false;
             SDL_RenderPresent(renderer);
             SDL_Delay(16);
         }
