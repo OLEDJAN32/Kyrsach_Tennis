@@ -13,6 +13,12 @@ void play(SDL_Renderer*& renderer)
     SDL_Texture* Blue_table = SDL_CreateTextureFromSurface(renderer, Blue_table1);
     SDL_FreeSurface(Blue_table1);
 
+    SDL_Surface* Rocket1 = IMG_Load("Rocket.bmp");
+    SDL_Texture* Rocket = SDL_CreateTextureFromSurface(renderer, Rocket1);
+    SDL_FreeSurface(Rocket1);
+
+    SDL_Rect Rocket_place = { 198,370, 10,80 };
+    SDL_Rect Rocket_place2 = { 992,370, 10,80 };
     int x = 0, y = 0;
     bool p = false;
     while (!p)
@@ -20,7 +26,33 @@ void play(SDL_Renderer*& renderer)
         SDL_PollEvent(&event);
         SDL_RenderCopy(renderer, Play_fon, NULL, NULL);
         SDL_RenderCopy(renderer, Blue_table, NULL, &table);
+        SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
+        SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
         SDL_GetMouseState(&x, &y);
+
+        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_w) && Rocket_place.y>=205)
+        {
+            Rocket_place.y -= 12;
+            SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
+        }
+
+        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_s) && Rocket_place.y <= 535)
+        {
+            Rocket_place.y += 12;
+            SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
+        }
+
+        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_UP) && Rocket_place2.y >= 205)
+        {
+            Rocket_place2.y -= 12;
+            SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
+        }
+
+        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_DOWN) && Rocket_place2.y <= 535)
+        {
+            Rocket_place2.y += 12;
+            SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
+        }
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_ESCAPE))
         {
@@ -32,6 +64,7 @@ void play(SDL_Renderer*& renderer)
     }
     if (p == true)
     {
+        SDL_DestroyTexture(Rocket);
         SDL_DestroyTexture(Blue_table);
         SDL_DestroyTexture(Play_fon);
     }
