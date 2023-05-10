@@ -3,9 +3,43 @@
 
 int napr()
 {
-    int x=rand()%(5-(-5)+1)+(-5);
-    if (x == 5 || x == (-5)) { return x; }
+    int x=rand()%(6-(-6)+1)+(-6);
+    if (x == 6 || x == (-6)) { return x; }
     else { napr(); }
+}
+
+void draw_text(SDL_Renderer*& renderer, SDL_Texture* texture)
+{
+    SDL_Rect rect = { 546,53, 40, 80 };
+    SDL_RenderCopy(renderer, texture, NULL, &rect);
+}
+
+void draw_text2(SDL_Renderer*& renderer, SDL_Texture* texture)
+{
+    SDL_Rect rect = { 614,53, 40, 80 };
+    SDL_RenderCopy(renderer, texture, NULL, &rect);
+}
+
+SDL_Texture* get_text_texture(SDL_Renderer*& renderer, char* text, TTF_Font* font)
+{
+    SDL_Surface* textSurface = NULL;
+    SDL_Color fore_color = { 255,0,0 };
+    SDL_Color back_color = { 0,0,0};
+    textSurface = TTF_RenderText_Shaded(font, text, fore_color, back_color);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_FreeSurface(textSurface);
+    return texture;
+}
+
+SDL_Texture* get_text_texture2(SDL_Renderer*& renderer, char* text2, TTF_Font* font)
+{
+    SDL_Surface* textSurface = NULL;
+    SDL_Color fore_color = { 255,0,0 };
+    SDL_Color back_color = { 0,0,0 };
+    textSurface = TTF_RenderText_Shaded(font, text2, fore_color, back_color);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_FreeSurface(textSurface);
+    return texture;
 }
 
 void play(SDL_Renderer*& renderer)
@@ -16,6 +50,12 @@ void play(SDL_Renderer*& renderer)
     SDL_Texture* Play_fon = SDL_CreateTextureFromSurface(renderer, Play_fon1);
     SDL_FreeSurface(Play_fon1);
 
+    SDL_Rect tablo = { 525,20,150,150 };
+    SDL_Surface* Tablo1 = IMG_Load("Tablo.bmp");
+    SDL_SetColorKey(Tablo1, SDL_TRUE, SDL_MapRGB(Tablo1->format, 255, 0, 0));
+    SDL_Texture* Tablo = SDL_CreateTextureFromSurface(renderer, Tablo1);
+    SDL_FreeSurface(Tablo1);
+
     SDL_Rect table = { 200, 200, 800, 424 };
     SDL_Surface* Blue_table1 = IMG_Load("Blue_table.jpg");
     SDL_Texture* Blue_table = SDL_CreateTextureFromSurface(renderer, Blue_table1);
@@ -25,18 +65,31 @@ void play(SDL_Renderer*& renderer)
     SDL_Texture* Rocket = SDL_CreateTextureFromSurface(renderer, Rocket1);
     SDL_FreeSurface(Rocket1);
 
+    TTF_Init();
+    TTF_Font* my_font = TTF_OpenFont("Text.ttf", 100);
+    SDL_Texture* textTexture;
+    SDL_Texture* textTexture2;
+
+    int tl = 0;
+    int tr = 0;
+    char text[10];
+    char text2[10];
+    textTexture = get_text_texture(renderer, text, my_font);
+    textTexture2 = get_text_texture2(renderer, text2, my_font);
+
     SDL_Rect Rocket_place = { 198,370, 10,80 };
     SDL_Rect Rocket_place2 = { 992,370, 10,80 };
     int x = 0, y = 0;
-    int x3, y3, x1 = 600, y1 = 412;
+    int x3, y3, x1 = 600, y1 = 412, win_round_left=0, win_round_right=0;
     int x2 = napr();
     int y2 = napr();
     double f;
-    bool p = false, lose = false;
+    bool p = false;
     while (!p)
     {
         SDL_PollEvent(&event);
         SDL_RenderCopy(renderer, Play_fon, NULL, NULL);
+        SDL_RenderCopy(renderer, Tablo, NULL, &tablo);
         SDL_RenderCopy(renderer, Blue_table, NULL, &table);
         SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
@@ -55,11 +108,19 @@ void play(SDL_Renderer*& renderer)
         }
         if (x1<Rocket_place.x)
         {
-            lose = true;
+            win_round_right += 1;
+            x1 = 600;
+            y1 = 412;
+            x2 = napr();
+            y2 = napr();
         }
         if (x1 > Rocket_place2.x)
         {
-            lose = true;
+            win_round_left += 1;
+            x1 = 600;
+            y1 = 412;
+            x2 = napr();
+            y2 = napr();
         }
         if ((y1 + 10 > 624) || (y1 - 10 < 200)) 
         {
@@ -78,25 +139,25 @@ void play(SDL_Renderer*& renderer)
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_w) && Rocket_place.y>=205)
         {
-            Rocket_place.y -= 24;
+            Rocket_place.y -= 43;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         }
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_s) && Rocket_place.y <= 535)
         {
-            Rocket_place.y += 24;
+            Rocket_place.y += 43;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         }
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_UP) && Rocket_place2.y >= 205)
         {
-            Rocket_place2.y -= 24;
+            Rocket_place2.y -= 43;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
         }
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_DOWN) && Rocket_place2.y <= 535)
         {
-            Rocket_place2.y += 24;
+            Rocket_place2.y += 43;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
         }
 
@@ -105,14 +166,37 @@ void play(SDL_Renderer*& renderer)
             menu_pause(renderer, p);
         }
         
-        if (lose == true) p = true;
+        tl = win_round_left;
+        _itoa_s(tl, text, 10);
+        textTexture = get_text_texture(renderer, text, my_font);
+        draw_text(renderer, textTexture);
+
+        tr = win_round_right;
+        _itoa_s(tr, text2, 10);
+        textTexture2 = get_text_texture(renderer, text2, my_font);
+        draw_text2(renderer, textTexture2);
+
+        if (win_round_right == 5)
+        {
+            p = true;
+            printf("Winer right\n");
+        }
+
+        if (win_round_left == 5)
+        {
+            p = true;
+            printf("Winer left\n");
+        }
+
         SDL_RenderPresent(renderer);
         SDL_Delay(16);
     }
     if (p == true)
     {
+        SDL_Delay(1000);
         SDL_DestroyTexture(Rocket);
         SDL_DestroyTexture(Blue_table);
+        SDL_DestroyTexture(Tablo);
         SDL_DestroyTexture(Play_fon);
     }
 }
