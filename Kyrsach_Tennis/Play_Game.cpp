@@ -1,8 +1,16 @@
 #include"Play.h"
 #include"Pause.h"
 
+int napr()
+{
+    int x=rand()%(5-(-5)+1)+(-5);
+    if (x == 5 || x == (-5)) { return x; }
+    else { napr(); }
+}
+
 void play(SDL_Renderer*& renderer)
 {
+    srand(time(NULL));
     SDL_Event event;
     SDL_Surface* Play_fon1 = IMG_Load("Play_fon.jpg");
     SDL_Texture* Play_fon = SDL_CreateTextureFromSurface(renderer, Play_fon1);
@@ -20,9 +28,11 @@ void play(SDL_Renderer*& renderer)
     SDL_Rect Rocket_place = { 198,370, 10,80 };
     SDL_Rect Rocket_place2 = { 992,370, 10,80 };
     int x = 0, y = 0;
-    int x3, y3, x1 = 600, y1 = 412, x2 = 8, y2 = 8;
+    int x3, y3, x1 = 600, y1 = 412;
+    int x2 = napr();
+    int y2 = napr();
     double f;
-    bool p = false;
+    bool p = false, lose = false;
     while (!p)
     {
         SDL_PollEvent(&event);
@@ -35,14 +45,30 @@ void play(SDL_Renderer*& renderer)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
         x1 += x2;
         y1 += y2;
-        if ((x1 + 10 > Rocket_place2.x) || (x1 - 10 < Rocket_place.x)) {
+        if ((x1 - 10 < Rocket_place.x) && ((y1 < Rocket_place.y+Rocket_place.h) && (y1>Rocket_place.y)))
+        {
             x2 = -x2;
         }
-        if ((y1 + 10 > 624) || (y1 - 10 < 200)) {
+        if ((x1 + 10 > Rocket_place2.x) && ((y1 < Rocket_place2.y + Rocket_place2.h) && (y1 > Rocket_place2.y)))
+        {
+            x2 = -x2;
+        }
+        if (x1<Rocket_place.x)
+        {
+            lose = true;
+        }
+        if (x1 > Rocket_place2.x)
+        {
+            lose = true;
+        }
+        if ((y1 + 10 > 624) || (y1 - 10 < 200)) 
+        {
             y2 = -y2;
         }
-        for (int R = 10; R >= 0; R--) {
-            for (int i = 0; i <= 1350; i++) {
+        for (int R = 10; R >= 0; R--) 
+        {
+            for (int i = 0; i <= 1350; i++) 
+            {
                 f = i * (3.14 / 180);
                 x3 = int(x1 + cos(f) * R);
                 y3 = int(-(-y1 + sin(f) * R));
@@ -52,25 +78,25 @@ void play(SDL_Renderer*& renderer)
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_w) && Rocket_place.y>=205)
         {
-            Rocket_place.y -= 12;
+            Rocket_place.y -= 24;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         }
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_s) && Rocket_place.y <= 535)
         {
-            Rocket_place.y += 12;
+            Rocket_place.y += 24;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         }
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_UP) && Rocket_place2.y >= 205)
         {
-            Rocket_place2.y -= 12;
+            Rocket_place2.y -= 24;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
         }
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_DOWN) && Rocket_place2.y <= 535)
         {
-            Rocket_place2.y += 12;
+            Rocket_place2.y += 24;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
         }
 
@@ -79,6 +105,7 @@ void play(SDL_Renderer*& renderer)
             menu_pause(renderer, p);
         }
         
+        if (lose == true) p = true;
         SDL_RenderPresent(renderer);
         SDL_Delay(16);
     }
