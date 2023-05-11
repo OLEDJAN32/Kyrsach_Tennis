@@ -78,6 +78,7 @@ void play(SDL_Renderer*& renderer, int table)
     SDL_Texture* textTexture;
     SDL_Texture* textTexture2;
 
+    int win_round_left = 0, win_round_right = 0;
     int tl = 0;
     int tr = 0;
     char text[10];
@@ -85,14 +86,22 @@ void play(SDL_Renderer*& renderer, int table)
     textTexture = get_text_texture(renderer, text, my_font);
     textTexture2 = get_text_texture2(renderer, text2, my_font);
 
+    tl = win_round_left;
+    _itoa_s(tl, text, 10);
+    textTexture = get_text_texture(renderer, text, my_font);
+
+    tr = win_round_right;
+    _itoa_s(tr, text2, 10);
+    textTexture2 = get_text_texture(renderer, text2, my_font);
+
     SDL_Rect Rocket_place = { 198,370, 10,80 };
     SDL_Rect Rocket_place2 = { 992,370, 10,80 };
     int x = 0, y = 0;
-    int x3, y3, x1 = 600, y1 = 412, win_round_left=0, win_round_right=0;
+    int x3, y3, x1 = 600, y1 = 412;
     int x2 = napr();
     int y2 = napr();
     double f;
-    bool p = false;
+    bool p = false, change=false;
     while (!p)
     {
         SDL_PollEvent(&event);
@@ -100,9 +109,9 @@ void play(SDL_Renderer*& renderer, int table)
         SDL_RenderCopy(renderer, Play_fon, NULL, NULL);
         SDL_RenderCopy(renderer, Tablo, NULL, &tablo);
         SDL_RenderCopy(renderer, Blue_table, NULL, &table_koord);
-        /*if (table == 1) SDL_RenderCopy(renderer, Blue_table, NULL, &table_koord);
+        if (table == 1) SDL_RenderCopy(renderer, Blue_table, NULL, &table_koord);
         if (table == 2) SDL_RenderCopy(renderer, Green_table, NULL, &table_koord);
-        if (table == 3) SDL_RenderCopy(renderer, BGTU_table, NULL, &table_koord);*/
+        if (table == 3) SDL_RenderCopy(renderer, BGTU_table, NULL, &table_koord);
         SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
         SDL_GetMouseState(&x, &y);
@@ -123,6 +132,7 @@ void play(SDL_Renderer*& renderer, int table)
             x2 = 0; y2 = 0;
             SDL_Delay(1000);
             win_round_right += 1;
+            change = true;
             x1 = 600;
             y1 = 412;
             x2 = napr();
@@ -133,6 +143,7 @@ void play(SDL_Renderer*& renderer, int table)
             x2 = 0; y2 = 0;
             SDL_Delay(1000);
             win_round_left += 1;
+            change = true;
             x1 = 600;
             y1 = 412;
             x2 = napr();
@@ -182,15 +193,17 @@ void play(SDL_Renderer*& renderer, int table)
             menu_pause(renderer, p);
         }
         
-        tl = win_round_left;
-        _itoa_s(tl, text, 10);
-        textTexture = get_text_texture(renderer, text, my_font);
-        draw_text(renderer, textTexture);
+        if (change == true)
+        {
+            change = false;
+            tl = win_round_left;
+            _itoa_s(tl, text, 10);
+            textTexture = get_text_texture(renderer, text, my_font);
 
-        tr = win_round_right;
-        _itoa_s(tr, text2, 10);
-        textTexture2 = get_text_texture(renderer, text2, my_font);
-        draw_text2(renderer, textTexture2);
+            tr = win_round_right;
+            _itoa_s(tr, text2, 10);
+            textTexture2 = get_text_texture(renderer, text2, my_font);
+        }
 
         if (win_round_right == 5)
         {
@@ -204,6 +217,8 @@ void play(SDL_Renderer*& renderer, int table)
             printf("Winer left\n");
         }
 
+        draw_text(renderer, textTexture);
+        draw_text2(renderer, textTexture2);
         SDL_RenderPresent(renderer);
         SDL_Delay(16);
     }
