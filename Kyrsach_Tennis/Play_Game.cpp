@@ -42,7 +42,7 @@ SDL_Texture* get_text_texture2(SDL_Renderer*& renderer, char* text2, TTF_Font* f
     return texture;
 }
 
-void play(SDL_Renderer*& renderer)
+void play(SDL_Renderer*& renderer, int table)
 {
     srand(time(NULL));
     SDL_Event event;
@@ -56,10 +56,18 @@ void play(SDL_Renderer*& renderer)
     SDL_Texture* Tablo = SDL_CreateTextureFromSurface(renderer, Tablo1);
     SDL_FreeSurface(Tablo1);
 
-    SDL_Rect table = { 200, 200, 800, 424 };
+    SDL_Rect table_koord = { 200, 200, 800, 424 };
     SDL_Surface* Blue_table1 = IMG_Load("Blue_table.jpg");
     SDL_Texture* Blue_table = SDL_CreateTextureFromSurface(renderer, Blue_table1);
     SDL_FreeSurface(Blue_table1);
+
+    SDL_Surface* Green_table1 = IMG_Load("Green_table.bmp");
+    SDL_Texture* Green_table = SDL_CreateTextureFromSurface(renderer, Green_table1);
+    SDL_FreeSurface(Green_table1);
+
+    SDL_Surface* BGTU_table1 = IMG_Load("BGTU_table.jpg");
+    SDL_Texture* BGTU_table = SDL_CreateTextureFromSurface(renderer, BGTU_table1);
+    SDL_FreeSurface(BGTU_table1);
 
     SDL_Surface* Rocket1 = IMG_Load("Rocket.bmp");
     SDL_Texture* Rocket = SDL_CreateTextureFromSurface(renderer, Rocket1);
@@ -88,9 +96,13 @@ void play(SDL_Renderer*& renderer)
     while (!p)
     {
         SDL_PollEvent(&event);
+        if (event.type == SDL_QUIT) p = true;
         SDL_RenderCopy(renderer, Play_fon, NULL, NULL);
         SDL_RenderCopy(renderer, Tablo, NULL, &tablo);
-        SDL_RenderCopy(renderer, Blue_table, NULL, &table);
+        SDL_RenderCopy(renderer, Blue_table, NULL, &table_koord);
+        /*if (table == 1) SDL_RenderCopy(renderer, Blue_table, NULL, &table_koord);
+        if (table == 2) SDL_RenderCopy(renderer, Green_table, NULL, &table_koord);
+        if (table == 3) SDL_RenderCopy(renderer, BGTU_table, NULL, &table_koord);*/
         SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
         SDL_GetMouseState(&x, &y);
@@ -199,6 +211,8 @@ void play(SDL_Renderer*& renderer)
     {
         SDL_Delay(1000);
         SDL_DestroyTexture(Rocket);
+        SDL_DestroyTexture(BGTU_table);
+        SDL_DestroyTexture(Green_table);
         SDL_DestroyTexture(Blue_table);
         SDL_DestroyTexture(Tablo);
         SDL_DestroyTexture(Play_fon);

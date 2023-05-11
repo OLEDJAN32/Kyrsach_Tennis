@@ -25,6 +25,7 @@ void menu_pause(SDL_Renderer*& renderer, bool& p)
     while (!p1)
     {
         SDL_PollEvent(&event);
+        if (event.type == SDL_QUIT) p1 = true;
         SDL_RenderCopy(renderer, Menu_pause, NULL, &pause);
         SDL_GetMouseState(&x, &y);
 

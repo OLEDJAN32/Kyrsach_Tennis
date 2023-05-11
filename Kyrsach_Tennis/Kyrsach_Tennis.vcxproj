@@ -129,12 +129,14 @@
   <ItemGroup>
     <ClCompile Include="Kyrsach_Tennis.cpp" />
     <ClCompile Include="Menu_pause.cpp" />
+    <ClCompile Include="Options_game.cpp" />
     <ClCompile Include="Play_Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Options.h" />
     <ClInclude Include="Pause.h" />
     <ClInclude Include="Play.h" />
   </ItemGroup>
