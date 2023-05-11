@@ -98,24 +98,28 @@ void play(SDL_Renderer*& renderer)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
         x1 += x2;
         y1 += y2;
-        if ((x1 - 10 < Rocket_place.x) && ((y1 < Rocket_place.y+Rocket_place.h) && (y1>Rocket_place.y)))
+        if ((x1 - 20 < Rocket_place.x) && ((y1 < Rocket_place.y+Rocket_place.h+9) && (y1>Rocket_place.y-9)) && (x1>Rocket_place.x+15))
         {
             x2 = -x2;
         }
-        if ((x1 + 10 > Rocket_place2.x) && ((y1 < Rocket_place2.y + Rocket_place2.h) && (y1 > Rocket_place2.y)))
+        if ((x1 + 10 > Rocket_place2.x) && ((y1 < Rocket_place2.y + Rocket_place2.h+9) && (y1 > Rocket_place2.y-9)) && (x1 < Rocket_place2.x-5))
         {
             x2 = -x2;
         }
-        if (x1<Rocket_place.x)
+        if (x1<Rocket_place.x-20)
         {
+            x2 = 0; y2 = 0;
+            SDL_Delay(1000);
             win_round_right += 1;
             x1 = 600;
             y1 = 412;
             x2 = napr();
             y2 = napr();
         }
-        if (x1 > Rocket_place2.x)
+        if (x1 > Rocket_place2.x+20)
         {
+            x2 = 0; y2 = 0;
+            SDL_Delay(1000);
             win_round_left += 1;
             x1 = 600;
             y1 = 412;
@@ -137,25 +141,25 @@ void play(SDL_Renderer*& renderer)
             }
         }
 
-        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_w) && Rocket_place.y>=205)
+        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_w) && (Rocket_place.y>=205) && (x1>Rocket_place.x+10))
         {
             Rocket_place.y -= 43;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         }
 
-        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_s) && Rocket_place.y <= 535)
+        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_s) && (Rocket_place.y <= 535) && (x1 > Rocket_place.x + 10))
         {
             Rocket_place.y += 43;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place);
         }
 
-        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_UP) && Rocket_place2.y >= 205)
+        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_UP) && (Rocket_place2.y >= 205) && (x1 < Rocket_place2.x))
         {
             Rocket_place2.y -= 43;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
         }
 
-        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_DOWN) && Rocket_place2.y <= 535)
+        if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_DOWN) && (Rocket_place2.y <= 535) && (x1 < Rocket_place2.x))
         {
             Rocket_place2.y += 43;
             SDL_RenderCopy(renderer, Rocket, NULL, &Rocket_place2);
