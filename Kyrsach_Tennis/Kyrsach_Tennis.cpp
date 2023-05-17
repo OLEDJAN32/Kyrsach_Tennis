@@ -95,11 +95,16 @@ int main(int argc, char* args[])
 
         SDL_Surface* Back1 = IMG_Load("Back.bmp");
         SDL_Texture* Back = SDL_CreateTextureFromSurface(renderer, Back1);
-        SDL_FreeSurface(Records1);
+        SDL_FreeSurface(Back1);
 
         SDL_Surface* Back_1 = IMG_Load("Back2.bmp");
         SDL_Texture* Back2 = SDL_CreateTextureFromSurface(renderer, Back_1);
         SDL_FreeSurface(Back_1);
+
+        SDL_Rect Ball_k = { 533, 25, 95, 95 };
+        SDL_Surface* Ball1 = IMG_Load("Ball.png");
+        SDL_Texture* Ball = SDL_CreateTextureFromSurface(renderer, Ball1);
+        SDL_FreeSurface(Ball1);
 
         SDL_Rect knopka[4];
         knopka[0] = { 470,250, 300, 115 };
@@ -109,7 +114,7 @@ int main(int argc, char* args[])
         
         SDL_Event event;
         bool quit = false;
-        int x = 0, y = 0, table=1, zvyk=1;
+        int x = 0, y = 0, table=1, zvyk=1, j=0;
         while (!quit)
         {
             SDL_PollEvent(&event);
@@ -120,6 +125,8 @@ int main(int argc, char* args[])
             SDL_RenderCopy(renderer, Settings, NULL, &knopka[1]);
             SDL_RenderCopy(renderer, Records, NULL, &knopka[2]);
             SDL_RenderCopy(renderer, Back, NULL, &knopka[3]);
+            j += 100;
+            SDL_RenderCopyEx(renderer, Ball, NULL, &Ball_k, j * (3.14 / 180), 0, SDL_FLIP_NONE);
             SDL_GetMouseState(&x, &y);
             for (int i = 0; i < 4; i++)
             {
@@ -153,6 +160,9 @@ int main(int argc, char* args[])
             SDL_RenderPresent(renderer);
             SDL_Delay(16);
         }
+        SDL_DestroyTexture(Ball);
+        SDL_DestroyTexture(Back2);
+        SDL_DestroyTexture(Back);
         SDL_DestroyTexture(Records2);
         SDL_DestroyTexture(Records);
         SDL_DestroyTexture(Settings2);

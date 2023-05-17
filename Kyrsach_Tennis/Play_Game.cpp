@@ -78,7 +78,7 @@ void play(SDL_Renderer*& renderer, int table)
     SDL_Texture* textTexture;
     SDL_Texture* textTexture2;
 
-    int win_round_left = 0, win_round_right = 0;
+    int win_round_left = 0, win_round_right = 0, win_left=0, win_right=0;
     int tl = 0;
     int tr = 0;
     char text[10];
@@ -207,13 +207,35 @@ void play(SDL_Renderer*& renderer, int table)
 
         if (win_round_right == 5)
         {
-            p = true;
+            win_round_right = 0;
+            win_round_left = 0;
+            
+            tl = win_round_left;
+            _itoa_s(tl, text, 10);
+            textTexture = get_text_texture(renderer, text, my_font);
+            tr = win_round_right;
+            _itoa_s(tr, text2, 10);
+            textTexture2 = get_text_texture(renderer, text2, my_font);
+
+            win_right += 1;
+            if (win_right==3) p = true;
             printf("Winer right\n");
         }
 
         if (win_round_left == 5)
         {
-            p = true;
+            win_round_left = 0;
+            win_round_right = 0;
+
+            tl = win_round_left;
+            _itoa_s(tl, text, 10);
+            textTexture = get_text_texture(renderer, text, my_font);
+            tr = win_round_right;
+            _itoa_s(tr, text2, 10);
+            textTexture2 = get_text_texture(renderer, text2, my_font);
+
+            win_left += 1;
+            if (win_left==3) p = true;
             printf("Winer left\n");
         }
 
@@ -225,6 +247,8 @@ void play(SDL_Renderer*& renderer, int table)
     if (p == true)
     {
         SDL_Delay(1000);
+        SDL_DestroyTexture(textTexture2);
+        SDL_DestroyTexture(textTexture);
         SDL_DestroyTexture(Rocket);
         SDL_DestroyTexture(BGTU_table);
         SDL_DestroyTexture(Green_table);
