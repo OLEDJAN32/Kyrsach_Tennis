@@ -151,6 +151,11 @@ int main(int argc, char* args[])
                     options(renderer, table, zvyk);
                 }
 
+                if ((event.button.x > knopka[2].x) && (event.button.x < knopka[2].x + knopka[1].w) && (event.button.y > knopka[2].y) && (event.button.y < knopka[2].y + knopka[2].h))
+                {
+                    records(renderer, table, zvyk);
+                }
+
                 if ((event.button.x > knopka[3].x) && (event.button.x < knopka[3].x + knopka[3].w) && (event.button.y > knopka[3].y) && (event.button.y < knopka[3].y + knopka[3].h))
                 {
                     quit = true;

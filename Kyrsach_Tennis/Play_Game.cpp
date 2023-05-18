@@ -1,5 +1,6 @@
 #include"Play.h"
 #include"Pause.h"
+#include"Win_game.h"
 
 int napr()
 {
@@ -73,12 +74,23 @@ void play(SDL_Renderer*& renderer, int table)
     SDL_Texture* Rocket = SDL_CreateTextureFromSurface(renderer, Rocket1);
     SDL_FreeSurface(Rocket1);
 
+    SDL_Rect win_round = { 200, 200, 800, 424 };
+    SDL_Surface* Win_round_left1 = IMG_Load("Win_round_left.bmp");
+    SDL_SetColorKey(Win_round_left1, SDL_TRUE, SDL_MapRGB(Win_round_left1->format, 255, 255, 255));
+    SDL_Texture* Win_round_left_texture = SDL_CreateTextureFromSurface(renderer, Win_round_left1);
+    SDL_FreeSurface(Win_round_left1);
+
+    SDL_Surface* Win_round_right1 = IMG_Load("Win_round_right.bmp");
+    SDL_SetColorKey(Win_round_right1, SDL_TRUE, SDL_MapRGB(Win_round_right1->format, 255, 255, 255));
+    SDL_Texture* Win_round_right_texture = SDL_CreateTextureFromSurface(renderer, Win_round_right1);
+    SDL_FreeSurface(Win_round_right1);
+
     TTF_Init();
     TTF_Font* my_font = TTF_OpenFont("Text.ttf", 100);
     SDL_Texture* textTexture;
     SDL_Texture* textTexture2;
 
-    int win_round_left = 0, win_round_right = 0, win_left=0, win_right=0;
+    int win_round_left = 0, win_round_right = 0, win_left=0, win_right=0, left=0, right=0;
     int tl = 0;
     int tr = 0;
     char text[10];
@@ -132,6 +144,7 @@ void play(SDL_Renderer*& renderer, int table)
             x2 = 0; y2 = 0;
             SDL_Delay(1000);
             win_round_right += 1;
+            right += 1;
             change = true;
             x1 = 600;
             y1 = 412;
@@ -143,6 +156,7 @@ void play(SDL_Renderer*& renderer, int table)
             x2 = 0; y2 = 0;
             SDL_Delay(1000);
             win_round_left += 1;
+            left += 1;
             change = true;
             x1 = 600;
             y1 = 412;
@@ -218,8 +232,17 @@ void play(SDL_Renderer*& renderer, int table)
             textTexture2 = get_text_texture(renderer, text2, my_font);
 
             win_right += 1;
-            if (win_right==3) p = true;
-            printf("Winer right\n");
+            if (win_right == 3)
+            {
+                winer(renderer, p, win_right, win_left, left, right);
+            }
+            if(win_right<3) SDL_RenderCopy(renderer, Win_round_right_texture, NULL, &win_round);
+            if (p == false && win_right==3)
+            {
+                win_right = 0; win_left = 0;
+            }
+            SDL_RenderPresent(renderer);
+            SDL_Delay(2000);
         }
 
         if (win_round_left == 5)
@@ -235,8 +258,17 @@ void play(SDL_Renderer*& renderer, int table)
             textTexture2 = get_text_texture(renderer, text2, my_font);
 
             win_left += 1;
-            if (win_left==3) p = true;
-            printf("Winer left\n");
+            if (win_left == 3)
+            {
+                winer(renderer, p, win_right, win_left, left, right);
+            }
+            if (win_left < 3) SDL_RenderCopy(renderer, Win_round_right_texture, NULL, &win_round);
+            if (p == false && win_left == 3)
+            {
+                win_right = 0; win_left = 0;
+            }
+            SDL_RenderPresent(renderer);
+            SDL_Delay(2000);
         }
 
         draw_text(renderer, textTexture);
@@ -247,6 +279,8 @@ void play(SDL_Renderer*& renderer, int table)
     if (p == true)
     {
         SDL_Delay(1000);
+        SDL_DestroyTexture(Win_round_right_texture);
+        SDL_DestroyTexture(Win_round_left_texture);
         SDL_DestroyTexture(textTexture2);
         SDL_DestroyTexture(textTexture);
         SDL_DestroyTexture(Rocket);

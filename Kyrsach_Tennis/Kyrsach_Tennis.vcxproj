@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Kyrsach_Tennis.cpp" />
     <ClCompile Include="Menu_pause.cpp" />
+    <ClCompile Include="Winer.cpp" />
     <ClCompile Include="Options_game.cpp" />
     <ClCompile Include="Play_Game.cpp" />
   </ItemGroup>
@@ -136,6 +137,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Win_game.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Pause.h" />
     <ClInclude Include="Play.h" />
