@@ -13,6 +13,11 @@ void options(SDL_Renderer*& renderer, int& table, int& zvyk)
     SDL_Texture* OK = SDL_CreateTextureFromSurface(renderer, OK1);
     SDL_FreeSurface(OK1);
 
+    SDL_Rect sbros_koord = { 708, 307, 167, 49 };
+    SDL_Surface* sbros1 = IMG_Load("Sbros.bmp");
+    SDL_Texture* Sbros = SDL_CreateTextureFromSurface(renderer, sbros1);
+    SDL_FreeSurface(sbros1);
+
     SDL_Rect ok_koord1 = { 415,658,34,34 };
     SDL_Rect ok_koord2 = { 595,658,34,34 };
     SDL_Rect ok_koord3 = { 774,657,34,34 };
@@ -23,6 +28,7 @@ void options(SDL_Renderer*& renderer, int& table, int& zvyk)
         SDL_PollEvent(&event);
         if (event.type == SDL_QUIT) p1 = true;
         SDL_RenderCopy(renderer, Menu_options, NULL, &option);
+        SDL_RenderCopy(renderer, Sbros, NULL, &sbros_koord);
         if (ok1 == true || table == 1) SDL_RenderCopy(renderer, OK, NULL, &ok_koord1);
         if (ok2 == true || table == 2) SDL_RenderCopy(renderer, OK, NULL, &ok_koord2);
         if (ok3 == true || table == 3) SDL_RenderCopy(renderer, OK, NULL, &ok_koord3);
@@ -52,6 +58,19 @@ void options(SDL_Renderer*& renderer, int& table, int& zvyk)
                 ok2 = false;
                 table = 3;
             }
+            if ((x > sbros_koord.x && x < sbros_koord.x + sbros_koord.w && y>sbros_koord.y && y < sbros_koord.y + sbros_koord.h))
+            {
+                int a[5], size = 5;
+                FILE* f = fopen("Records.txt", "wt");
+                for (int i = 0; i < size; i++)
+                {
+                    a[i] = 0;
+                }
+
+                for (int i = 0; i < size; i++)
+                    fprintf(f, "%d ", a[i]);
+                fclose(f);
+            }
         }
 
         SDL_RenderPresent(renderer);
@@ -59,6 +78,7 @@ void options(SDL_Renderer*& renderer, int& table, int& zvyk)
     }
     if (p1 == true)
     {
+        SDL_DestroyTexture(Sbros);
         SDL_DestroyTexture(OK);
         SDL_DestroyTexture(Menu_options);
     }

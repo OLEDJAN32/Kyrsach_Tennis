@@ -8,6 +8,7 @@
 #include"SDL_mixer.h"
 
 int napr();
+void proverka(int razn);
 void draw_text(SDL_Renderer*& renderer, SDL_Texture* texture);
 void draw_text2(SDL_Renderer*& renderer, SDL_Texture* texture);
 SDL_Texture* get_text_texture(SDL_Renderer*& renderer, char* text, TTF_Font* font);

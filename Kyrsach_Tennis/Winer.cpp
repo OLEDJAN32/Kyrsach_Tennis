@@ -70,8 +70,8 @@ void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int le
     {
         SDL_PollEvent(&event);
         if (event.type == SDL_QUIT) p1 = true;
-        if (win_right==3) SDL_RenderCopy(renderer, Win_play_right_texture, NULL, &win_play);
-        if (win_left == 3) SDL_RenderCopy(renderer, Win_play_left_texture, NULL, &win_play);
+        if (win_right>win_left) SDL_RenderCopy(renderer, Win_play_right_texture, NULL, &win_play);
+        if (win_left>win_right) SDL_RenderCopy(renderer, Win_play_left_texture, NULL, &win_play);
         SDL_GetMouseState(&x, &y);
 
         if (event.button.button == SDL_BUTTON_LEFT)

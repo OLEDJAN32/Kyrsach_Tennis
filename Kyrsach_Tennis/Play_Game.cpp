@@ -9,6 +9,53 @@ int napr()
     else { napr(); }
 }
 
+void proverka(int razn)
+{
+    int a[5], size=0, vrem=0;
+    FILE* f = fopen("Records.txt", "rt");
+    while (!feof(f))
+    {
+        fscanf(f, "%d", &a[size]);
+        size++;
+    }
+    fclose(f);
+
+    if (razn > a[0])
+    {
+        for (int i = 4; i > 0; i--)
+        {
+            a[i] = a[i - 1];
+        }
+        a[0] = razn;
+    }
+    if (razn < a[0] && razn>a[1])
+    {
+        for (int i = 4; i > 1; i--)
+        {
+            a[i] = a[i - 1];
+        }
+        a[1] = razn;
+    }
+    if (razn < a[1] && razn>a[2])
+    {
+        for (int i = 4; i > 2; i--)
+        {
+            a[i] = a[i - 1];
+        }
+        a[2] = razn;
+    }
+    if (razn < a[2] && razn>a[3])
+    {
+        a[4] = a[3];
+        a[3] = razn;
+    }
+    if (razn < a[3] && razn>a[4]) a[4] = razn;
+
+    FILE* f1 = fopen("Records.txt", "wt");
+    for (int i = 0; i < size; i++)
+        fprintf(f1, "%d ", a[i]);
+    fclose(f1);
+}
 void draw_text(SDL_Renderer*& renderer, SDL_Texture* texture)
 {
     SDL_Rect rect = { 546,53, 40, 80 };
@@ -90,7 +137,7 @@ void play(SDL_Renderer*& renderer, int table)
     SDL_Texture* textTexture;
     SDL_Texture* textTexture2;
 
-    int win_round_left = 0, win_round_right = 0, win_left=0, win_right=0, left=0, right=0;
+    int win_round_left = 0, win_round_right = 0, win_left = 0, win_right = 0, left = 0, right = 0, razn;
     int tl = 0;
     int tr = 0;
     char text[10];
@@ -143,6 +190,8 @@ void play(SDL_Renderer*& renderer, int table)
         {
             x2 = 0; y2 = 0;
             SDL_Delay(1000);
+            Rocket_place = { 198,370, 10,80 };
+            Rocket_place2 = { 992,370, 10,80 };
             win_round_right += 1;
             right += 1;
             change = true;
@@ -155,6 +204,8 @@ void play(SDL_Renderer*& renderer, int table)
         {
             x2 = 0; y2 = 0;
             SDL_Delay(1000);
+            Rocket_place = { 198,370, 10,80 };
+            Rocket_place2 = { 992,370, 10,80 };
             win_round_left += 1;
             left += 1;
             change = true;
@@ -232,15 +283,19 @@ void play(SDL_Renderer*& renderer, int table)
             textTexture2 = get_text_texture(renderer, text2, my_font);
 
             win_right += 1;
-            if (win_right == 3)
+            if (win_left + win_right == 3)
             {
+                razn = abs(right - left);
+                proverka(razn);
                 winer(renderer, p, win_right, win_left, left, right);
             }
-            if(win_right<3) SDL_RenderCopy(renderer, Win_round_right_texture, NULL, &win_round);
-            if (p == false && win_right==3)
+            if(win_right+win_left<3) SDL_RenderCopy(renderer, Win_round_right_texture, NULL, &win_round);
+            if (p == false && win_right+win_left==3)
             {
                 win_right = 0; win_left = 0;
             }
+            Rocket_place = { 198,370, 10,80 };
+            Rocket_place2 = { 992,370, 10,80 };
             SDL_RenderPresent(renderer);
             SDL_Delay(2000);
         }
@@ -258,15 +313,19 @@ void play(SDL_Renderer*& renderer, int table)
             textTexture2 = get_text_texture(renderer, text2, my_font);
 
             win_left += 1;
-            if (win_left == 3)
+            if (win_left+win_right==3)
             {
+                razn = abs(left - right);
+                proverka(razn);
                 winer(renderer, p, win_right, win_left, left, right);
             }
-            if (win_left < 3) SDL_RenderCopy(renderer, Win_round_right_texture, NULL, &win_round);
-            if (p == false && win_left == 3)
+            if (win_left+win_right<3) SDL_RenderCopy(renderer, Win_round_left_texture, NULL, &win_round);
+            if (p == false && win_right + win_left == 3)
             {
                 win_right = 0; win_left = 0;
             }
+            Rocket_place = { 198,370, 10,80 };
+            Rocket_place2 = { 992,370, 10,80 };
             SDL_RenderPresent(renderer);
             SDL_Delay(2000);
         }
