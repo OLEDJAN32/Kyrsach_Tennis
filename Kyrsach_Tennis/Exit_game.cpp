@@ -38,7 +38,6 @@ void exit(SDL_Renderer*& renderer, bool& quit, int zvyk)
     }
     if (p1 == true)
     {
-        SDL_Delay(10);
         SDL_DestroyTexture(Exit);
     }
 }

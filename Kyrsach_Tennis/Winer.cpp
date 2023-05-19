@@ -96,6 +96,7 @@ void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int le
             {
                 p1 = true;
                 p = true;
+                v = true;
             }
         }
         

@@ -304,16 +304,16 @@ void play(SDL_Renderer*& renderer, int table, int zvyk)
         }
 
         if (win_round_right == 5)
-        {
-            win_round_right = 0;
-            win_round_left = 0;
-            
+        {            
             tl = win_round_left;
             _itoa_s(tl, text, 10);
             textTexture = get_text_texture(renderer, text, my_font);
             tr = win_round_right;
             _itoa_s(tr, text2, 10);
             textTexture2 = get_text_texture(renderer, text2, my_font);
+            draw_text(renderer, textTexture);
+            draw_text2(renderer, textTexture2);
+            SDL_RenderPresent(renderer);
 
             win_right += 1;
             if (win_left + win_right == 3)
@@ -330,12 +330,8 @@ void play(SDL_Renderer*& renderer, int table, int zvyk)
             Rocket_place = { 198,370, 10,80 };
             Rocket_place2 = { 992,370, 10,80 };
             SDL_RenderPresent(renderer);
-            SDL_Delay(2000);
-            if (v==false) s = false;
-        }
-
-        if (win_round_left == 5)
-        {
+            if (v == false) SDL_Delay(2000);
+            
             win_round_left = 0;
             win_round_right = 0;
 
@@ -345,6 +341,23 @@ void play(SDL_Renderer*& renderer, int table, int zvyk)
             tr = win_round_right;
             _itoa_s(tr, text2, 10);
             textTexture2 = get_text_texture(renderer, text2, my_font);
+            draw_text(renderer, textTexture);
+            draw_text2(renderer, textTexture2);
+            SDL_RenderPresent(renderer);
+            if (v==false) s = false;
+        }
+
+        if (win_round_left == 5)
+        {
+            tl = win_round_left;
+            _itoa_s(tl, text, 10);
+            textTexture = get_text_texture(renderer, text, my_font);
+            tr = win_round_right;
+            _itoa_s(tr, text2, 10);
+            textTexture2 = get_text_texture(renderer, text2, my_font);
+            draw_text(renderer, textTexture);
+            draw_text2(renderer, textTexture2);
+            SDL_RenderPresent(renderer);
 
             win_left += 1;
             if (win_left+win_right==3)
@@ -361,7 +374,20 @@ void play(SDL_Renderer*& renderer, int table, int zvyk)
             Rocket_place = { 198,370, 10,80 };
             Rocket_place2 = { 992,370, 10,80 };
             SDL_RenderPresent(renderer);
-            SDL_Delay(2000);
+            if(v==false) SDL_Delay(2000);
+            
+            win_round_left = 0;
+            win_round_right = 0;
+
+            tl = win_round_left;
+            _itoa_s(tl, text, 10);
+            textTexture = get_text_texture(renderer, text, my_font);
+            tr = win_round_right;
+            _itoa_s(tr, text2, 10);
+            textTexture2 = get_text_texture(renderer, text2, my_font);
+            draw_text(renderer, textTexture);
+            draw_text2(renderer, textTexture2);
+            SDL_RenderPresent(renderer);
             if(v==false) s = false;
         }
 
