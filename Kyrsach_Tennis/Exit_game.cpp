@@ -15,23 +15,22 @@ void exit(SDL_Renderer*& renderer, bool& quit, int zvyk)
     while (!p1)
     {
         SDL_PollEvent(&event);
-        if (event.type == SDL_QUIT) p1 = true;
+        if (event.type == SDL_QUIT) { quit = true; p1 = true; }
         SDL_RenderCopy(renderer, Exit, NULL, &exit_koord);
         SDL_GetMouseState(&x, &y);
         if (event.button.button == SDL_BUTTON_LEFT)
         {
             n += 1;
         }
-
         if (n == 2)
         {
             n = 0;
-            if (x > 308 && x < 505 && y>444 & y < 535) 
+            if (x > 700 && x < 891 && y>444 & y < 535) p1 = true;
+            if (x > 308 && x < 505 && y>444 & y < 535)
             {
                 p1 = true;
                 quit = true;
             }
-            if (x > 700 && x < 891 && y>444 & y < 535) p1 = true;
         }
         SDL_RenderPresent(renderer);
         SDL_Delay(16);

@@ -25,7 +25,7 @@ SDL_Texture* get_record_texture(SDL_Renderer*& renderer, char* text, TTF_Font* f
     return texture;
 }
 
-void records(SDL_Renderer*& renderer)
+void records(SDL_Renderer*& renderer, bool& quit)
 {
     SDL_Event event;
 
@@ -83,7 +83,7 @@ void records(SDL_Renderer*& renderer)
     while (!p1)
     {
         SDL_PollEvent(&event);
-        if (event.type == SDL_QUIT) p1 = true;
+        if (event.type == SDL_QUIT) { quit = true; p1 = true; }
         SDL_RenderCopy(renderer, Records_table, NULL, &record);
         SDL_GetMouseState(&x, &y);
 

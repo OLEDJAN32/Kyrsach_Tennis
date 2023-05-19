@@ -42,7 +42,7 @@ SDL_Texture* get_right_texture(SDL_Renderer*& renderer, char* text2, TTF_Font* f
     return texture;
 }
 
-void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int left, int right, bool& v, int zvyk)
+void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int left, int right, bool& v, int zvyk, bool& quit)
 {
     SDL_Event event;
 
@@ -78,7 +78,7 @@ void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int le
     while (!p1)
     {
         SDL_PollEvent(&event);
-        if (event.type == SDL_QUIT) p1 = true;
+        if (event.type == SDL_QUIT) { quit = true; p1 = true; }
         if (win_right>win_left) SDL_RenderCopy(renderer, Win_play_right_texture, NULL, &win_play);
         if (win_left>win_right) SDL_RenderCopy(renderer, Win_play_left_texture, NULL, &win_play);
         SDL_GetMouseState(&x, &y);

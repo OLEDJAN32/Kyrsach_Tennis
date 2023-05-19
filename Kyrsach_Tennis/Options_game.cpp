@@ -1,6 +1,6 @@
 #include"Options.h"
 #include"main.h"
-void options(SDL_Renderer*& renderer, int& table, int& zvyk)
+void options(SDL_Renderer*& renderer, int& table, int& zvyk, bool& quit)
 {
     loadnol();
     SDL_Event event;
@@ -41,7 +41,7 @@ void options(SDL_Renderer*& renderer, int& table, int& zvyk)
     while (!p1)
     {
         SDL_PollEvent(&event);
-        if (event.type == SDL_QUIT) p1 = true;
+        if (event.type == SDL_QUIT) { quit = true; p1 = true; }
         SDL_SetTextureAlphaMod(Fon, 1);
         SDL_RenderCopy(renderer, Fon, NULL, NULL);
         SDL_RenderCopy(renderer, Menu_options, NULL, &option);

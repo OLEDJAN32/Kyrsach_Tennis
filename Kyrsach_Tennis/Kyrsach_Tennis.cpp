@@ -141,19 +141,19 @@ int main(int argc, char* args[])
             {
                 if ((event.button.x > knopka[0].x) && (event.button.x < knopka[0].x + knopka[0].w) && (event.button.y > knopka[0].y) && (event.button.y < knopka[0].y + knopka[0].h))
                 {
-                    play(renderer, table, zvyk);
+                    play(renderer, table, zvyk, quit);
                     if (zvyk == 1) loadmusic();
                 }
 
                 if ((event.button.x > knopka[1].x) && (event.button.x < knopka[1].x + knopka[1].w) && (event.button.y > knopka[1].y) && (event.button.y < knopka[1].y + knopka[1].h))
                 {
-                    options(renderer, table, zvyk);
+                    options(renderer, table, zvyk, quit);
                     m = false;
                 }
 
                 if ((event.button.x > knopka[2].x) && (event.button.x < knopka[2].x + knopka[1].w) && (event.button.y > knopka[2].y) && (event.button.y < knopka[2].y + knopka[2].h))
                 {
-                    records(renderer);
+                    records(renderer, quit);
                 }
 
                 if ((event.button.x > knopka[3].x) && (event.button.x < knopka[3].x + knopka[3].w) && (event.button.y > knopka[3].y) && (event.button.y < knopka[3].y + knopka[3].h))

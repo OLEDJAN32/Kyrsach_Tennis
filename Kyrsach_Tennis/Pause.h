@@ -6,4 +6,4 @@
 #include"SDL_image.h"
 #include"SDL_mixer.h"
 
-void menu_pause(SDL_Renderer*& renderer, bool& p);
+void menu_pause(SDL_Renderer*& renderer, bool& p, bool& quit);

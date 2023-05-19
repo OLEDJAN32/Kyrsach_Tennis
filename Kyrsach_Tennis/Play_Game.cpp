@@ -119,7 +119,7 @@ SDL_Texture* get_text_texture2(SDL_Renderer*& renderer, char* text2, TTF_Font* f
     return texture;
 }
 
-void play(SDL_Renderer*& renderer, int table, int zvyk)
+void play(SDL_Renderer*& renderer, int table, int zvyk, bool& quit)
 {
     srand(time(NULL));
     SDL_Event event;
@@ -194,7 +194,7 @@ void play(SDL_Renderer*& renderer, int table, int zvyk)
     while (!p)
     {
         SDL_PollEvent(&event);
-        if (event.type == SDL_QUIT) p = true;
+        if (event.type == SDL_QUIT) {quit = true; p = true;}
         SDL_RenderCopy(renderer, Play_fon, NULL, NULL);
         SDL_RenderCopy(renderer, Tablo, NULL, &tablo);
         SDL_RenderCopy(renderer, Blue_table, NULL, &table_koord);
@@ -288,7 +288,7 @@ void play(SDL_Renderer*& renderer, int table, int zvyk)
 
         if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_ESCAPE))
         {
-            menu_pause(renderer, p);
+            menu_pause(renderer, p, quit);
         }
         
         if (change == true)
@@ -320,7 +320,7 @@ void play(SDL_Renderer*& renderer, int table, int zvyk)
             {
                 razn = abs(right - left);
                 proverka(razn);
-                winer(renderer, p, win_right, win_left, left, right, v, zvyk);
+                winer(renderer, p, win_right, win_left, left, right, v, zvyk, quit);
             }
             if(win_right+win_left<3) SDL_RenderCopy(renderer, Win_round_right_texture, NULL, &win_round);
             if (p == false && win_right+win_left==3)
@@ -364,7 +364,7 @@ void play(SDL_Renderer*& renderer, int table, int zvyk)
             {
                 razn = abs(left - right);
                 proverka(razn);
-                winer(renderer, p, win_right, win_left, left, right, v, zvyk);
+                winer(renderer, p, win_right, win_left, left, right, v, zvyk, quit);
             }
             if (win_left+win_right<3) SDL_RenderCopy(renderer, Win_round_left_texture, NULL, &win_round);
             if (p == false && win_right + win_left == 3)

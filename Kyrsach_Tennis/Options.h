@@ -7,4 +7,4 @@
 #include"SDL_image.h"
 #include"SDL_mixer.h"
 
-void options(SDL_Renderer*& renderer, int& table, int& zvyk);
+void options(SDL_Renderer*& renderer, int& table, int& zvyk, bool& quit);

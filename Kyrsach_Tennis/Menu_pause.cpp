@@ -1,6 +1,6 @@
 #include"Pause.h"
 
-void menu_pause(SDL_Renderer*& renderer, bool& p)
+void menu_pause(SDL_Renderer*& renderer, bool& p, bool& quit)
 {
     SDL_Event event;
 
@@ -30,7 +30,7 @@ void menu_pause(SDL_Renderer*& renderer, bool& p)
     while (!p1)
     {
         SDL_PollEvent(&event);
-        if (event.type == SDL_QUIT) p1 = true;
+        if (event.type == SDL_QUIT) { quit = true; p1 = true; }
         SDL_SetTextureAlphaMod(Fon, 1);
         SDL_RenderCopy(renderer, Fon, NULL, NULL);
         SDL_RenderCopy(renderer, Menu_pause, NULL, &pause);

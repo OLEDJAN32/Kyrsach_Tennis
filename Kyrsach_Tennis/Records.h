@@ -7,4 +7,4 @@
 #include"SDL_image.h"
 #include"SDL_mixer.h"
 
-void records(SDL_Renderer*& renderer);
+void records(SDL_Renderer*& renderer, bool& quit);
