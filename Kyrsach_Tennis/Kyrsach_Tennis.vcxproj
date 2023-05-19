@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Exit_game.cpp" />
     <ClCompile Include="Kyrsach_Tennis.cpp" />
     <ClCompile Include="Menu_pause.cpp" />
     <ClCompile Include="Records_table.cpp" />
@@ -138,6 +139,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exit.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="Records.h" />
     <ClInclude Include="Win_game.h" />
     <ClInclude Include="Options.h" />

@@ -2,6 +2,35 @@
 #include"Pause.h"
 #include"Win_game.h"
 
+Mix_Music* fon_game = NULL;
+Mix_Chunk* Sound1 = NULL;
+Mix_Chunk* Sound2 = NULL;
+Mix_Chunk* Sound3 = NULL;
+
+void loadmusic2()
+{
+    fon_game = Mix_LoadMUS("fon_game.mp3");
+    Mix_PlayMusic(fon_game, -1);
+}
+
+void sound1()
+{
+    Sound1 = Mix_LoadWAV("Table.mp3");
+    Mix_PlayChannel(-1, Sound1, 0);
+}
+
+void sound2()
+{
+    Sound2 = Mix_LoadWAV("Rocket.mp3");
+    Mix_PlayChannel(-1, Sound2, 0);
+}
+
+void sound3()
+{
+    Sound3 = Mix_LoadWAV("svistok.mp3");
+    Mix_PlayChannel(-1, Sound3, 0);
+}
+
 int napr()
 {
     int x=rand()%(6-(-6)+1)+(-6);
@@ -90,7 +119,7 @@ SDL_Texture* get_text_texture2(SDL_Renderer*& renderer, char* text2, TTF_Font* f
     return texture;
 }
 
-void play(SDL_Renderer*& renderer, int table)
+void play(SDL_Renderer*& renderer, int table, int zvyk)
 {
     srand(time(NULL));
     SDL_Event event;
@@ -160,7 +189,8 @@ void play(SDL_Renderer*& renderer, int table)
     int x2 = napr();
     int y2 = napr();
     double f;
-    bool p = false, change=false;
+    bool p = false, change=false, s=false, v=false;
+    if (zvyk == 1) loadmusic2();
     while (!p)
     {
         SDL_PollEvent(&event);
@@ -181,10 +211,12 @@ void play(SDL_Renderer*& renderer, int table)
         if ((x1 - 20 < Rocket_place.x) && ((y1 < Rocket_place.y+Rocket_place.h+9) && (y1>Rocket_place.y-9)) && (x1>Rocket_place.x+15))
         {
             x2 = -x2;
+            if(zvyk==1) sound2();
         }
         if ((x1 + 10 > Rocket_place2.x) && ((y1 < Rocket_place2.y + Rocket_place2.h+9) && (y1 > Rocket_place2.y-9)) && (x1 < Rocket_place2.x-5))
         {
             x2 = -x2;
+            if(zvyk==1) sound2();
         }
         if (x1<Rocket_place.x-20)
         {
@@ -217,6 +249,7 @@ void play(SDL_Renderer*& renderer, int table)
         if ((y1 + 10 > 624) || (y1 - 10 < 200)) 
         {
             y2 = -y2;
+            if(zvyk==1) sound1();
         }
         for (int R = 10; R >= 0; R--) 
         {
@@ -287,7 +320,7 @@ void play(SDL_Renderer*& renderer, int table)
             {
                 razn = abs(right - left);
                 proverka(razn);
-                winer(renderer, p, win_right, win_left, left, right);
+                winer(renderer, p, win_right, win_left, left, right, v, zvyk);
             }
             if(win_right+win_left<3) SDL_RenderCopy(renderer, Win_round_right_texture, NULL, &win_round);
             if (p == false && win_right+win_left==3)
@@ -298,6 +331,7 @@ void play(SDL_Renderer*& renderer, int table)
             Rocket_place2 = { 992,370, 10,80 };
             SDL_RenderPresent(renderer);
             SDL_Delay(2000);
+            if (v==false) s = false;
         }
 
         if (win_round_left == 5)
@@ -317,7 +351,7 @@ void play(SDL_Renderer*& renderer, int table)
             {
                 razn = abs(left - right);
                 proverka(razn);
-                winer(renderer, p, win_right, win_left, left, right);
+                winer(renderer, p, win_right, win_left, left, right, v, zvyk);
             }
             if (win_left+win_right<3) SDL_RenderCopy(renderer, Win_round_left_texture, NULL, &win_round);
             if (p == false && win_right + win_left == 3)
@@ -328,16 +362,27 @@ void play(SDL_Renderer*& renderer, int table)
             Rocket_place2 = { 992,370, 10,80 };
             SDL_RenderPresent(renderer);
             SDL_Delay(2000);
+            if(v==false) s = false;
         }
 
         draw_text(renderer, textTexture);
         draw_text2(renderer, textTexture2);
         SDL_RenderPresent(renderer);
+        if (s == false)
+        {
+            s = true;
+            if(zvyk==1) sound3();
+            SDL_Delay(1000);
+        }
         SDL_Delay(16);
     }
     if (p == true)
     {
         SDL_Delay(1000);
+        Mix_FreeMusic(fon_game);
+        Mix_FreeChunk(Sound3);
+        Mix_FreeChunk(Sound2);
+        Mix_FreeChunk(Sound1);
         SDL_DestroyTexture(Win_round_right_texture);
         SDL_DestroyTexture(Win_round_left_texture);
         SDL_DestroyTexture(textTexture2);

@@ -1,5 +1,13 @@
 #include"Win_game.h"
 
+Mix_Chunk* Sound4 = NULL;
+
+void sound4()
+{
+    Sound4 = Mix_LoadWAV("aplodysment.mp3");
+    Mix_PlayChannel(-1, Sound4, 0);
+}
+
 void draw_left(SDL_Renderer*& renderer, SDL_Texture* texture)
 {
     SDL_Rect rect = { 605,460, 50, 70 };
@@ -34,7 +42,7 @@ SDL_Texture* get_right_texture(SDL_Renderer*& renderer, char* text2, TTF_Font* f
     return texture;
 }
 
-void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int left, int right)
+void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int left, int right, bool& v, int zvyk)
 {
     SDL_Event event;
 
@@ -64,8 +72,9 @@ void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int le
     _itoa_s(right, text2, 10);
     textTexture2 = get_right_texture(renderer, text2, my_font);
 
-    int x = 0, y = 0;
+    int x = 0, y = 0, n = 0;
     bool p1 = false;
+    if (zvyk==1) sound4();
     while (!p1)
     {
         SDL_PollEvent(&event);
@@ -76,6 +85,12 @@ void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int le
 
         if (event.button.button == SDL_BUTTON_LEFT)
         {
+            n += 1;
+        }
+
+        if (n == 2)
+        {
+            n = 0;
             if (x > 415 && x < 515 && y>560 && y < 660) p1 = true;
             if (x > 595 && x < 830 && y>560 && y < 660)
             {
@@ -91,6 +106,7 @@ void winer(SDL_Renderer*& renderer, bool& p, int win_right, int win_left, int le
     }
     if (p1 == true)
     {
+        Mix_FreeChunk(Sound4);
         SDL_DestroyTexture(textTexture2);
         SDL_DestroyTexture(textTexture);
         SDL_DestroyTexture(Win_play_right_texture);

@@ -1,20 +1,10 @@
-﻿#include<stdlib.h>
-#include<stdio.h>
-#include"SDL.h"
-#include"SDL_ttf.h"
-#include"SDL_image.h"
-#include"SDL_mixer.h"
-#include"Play.h"
-#include"Options.h"
-#include"Records.h"
-#include"SDL_gesture.h"
-#include<Windows.h>
+﻿#include"main.h"
 
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 800;
 SDL_Window* window = NULL;
-Mix_Chunk* Sound = NULL;
 Mix_Music* fon = NULL;
+Mix_Music* nol = NULL;
 bool init();
 
 void loadmusic()
@@ -23,10 +13,10 @@ void loadmusic()
     Mix_PlayMusic(fon, -1);
 }
 
-void sound()
+void loadnol()
 {
-    Sound = Mix_LoadWAV("sonic_jump.mp3");
-    Mix_PlayChannel(-1, Sound, 0);
+    nol = Mix_LoadMUS("nol.mp3");
+    Mix_PlayMusic(nol, -1);
 }
 
 bool init()
@@ -62,7 +52,6 @@ int main(int argc, char* args[])
     }
     else
     {
-        loadmusic();
         SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
         SDL_RenderClear(renderer);
@@ -115,10 +104,17 @@ int main(int argc, char* args[])
         knopka[3] = { 470,640, 300, 115 };
         
         SDL_Event event;
-        bool quit = false;
+        bool quit = false, m=false;
         int x = 0, y = 0, table=1, zvyk=1, j=0;
+        if (zvyk == 1) loadmusic();
         while (!quit)
         {
+            if (m == false)
+            {
+                m = true;
+                if (zvyk == 1) loadmusic();
+                if (zvyk == 0) loadnol();
+            }
             SDL_PollEvent(&event);
             if (event.type == SDL_QUIT) quit = true;
 
@@ -145,13 +141,14 @@ int main(int argc, char* args[])
             {
                 if ((event.button.x > knopka[0].x) && (event.button.x < knopka[0].x + knopka[0].w) && (event.button.y > knopka[0].y) && (event.button.y < knopka[0].y + knopka[0].h))
                 {
-                    play(renderer, table);
-                    event.button.button=0;
+                    play(renderer, table, zvyk);
+                    if (zvyk == 1) loadmusic();
                 }
 
                 if ((event.button.x > knopka[1].x) && (event.button.x < knopka[1].x + knopka[1].w) && (event.button.y > knopka[1].y) && (event.button.y < knopka[1].y + knopka[1].h))
                 {
                     options(renderer, table, zvyk);
+                    m = false;
                 }
 
                 if ((event.button.x > knopka[2].x) && (event.button.x < knopka[2].x + knopka[1].w) && (event.button.y > knopka[2].y) && (event.button.y < knopka[2].y + knopka[2].h))
@@ -161,7 +158,7 @@ int main(int argc, char* args[])
 
                 if ((event.button.x > knopka[3].x) && (event.button.x < knopka[3].x + knopka[3].w) && (event.button.y > knopka[3].y) && (event.button.y < knopka[3].y + knopka[3].h))
                 {
-                    quit = true;
+                    exit(renderer, quit, zvyk);   
                 }
 
             }
@@ -181,7 +178,6 @@ int main(int argc, char* args[])
         SDL_DestroyRenderer(renderer);
     }
     Mix_FreeMusic(fon);
-    Mix_FreeChunk(Sound);
     Mix_CloseAudio();
     SDL_DestroyWindow(window);
     SDL_Quit();
