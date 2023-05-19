@@ -2,15 +2,15 @@
 
 void draw_left(SDL_Renderer*& renderer, SDL_Texture* texture, SDL_Texture* texture2, SDL_Texture* texture3, SDL_Texture* texture4, SDL_Texture* texture5)
 {
-    SDL_Rect rect1 = { 625,310, 40, 60 };
+    SDL_Rect rect1 = { 625,308, 40, 60 };
     SDL_RenderCopy(renderer, texture, NULL, &rect1);
-    SDL_Rect rect2 = { 625,385, 40, 60 };
+    SDL_Rect rect2 = { 625,383, 40, 60 };
     SDL_RenderCopy(renderer, texture2, NULL, &rect2);
-    SDL_Rect rect3 = { 625,460, 40, 60 };
+    SDL_Rect rect3 = { 625,457, 40, 60 };
     SDL_RenderCopy(renderer, texture3, NULL, &rect3);
-    SDL_Rect rect4 = { 625,535, 40, 60 };
+    SDL_Rect rect4 = { 625,533, 40, 60 };
     SDL_RenderCopy(renderer, texture4, NULL, &rect4);
-    SDL_Rect rect5 = { 625,610, 40, 60 };
+    SDL_Rect rect5 = { 625,608, 40, 60 };
     SDL_RenderCopy(renderer, texture5, NULL, &rect5);
 }
 

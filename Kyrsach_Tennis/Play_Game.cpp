@@ -321,9 +321,11 @@ void play(SDL_Renderer*& renderer, int table, int zvyk, bool& quit)
                 razn = abs(right - left);
                 proverka(razn);
                 winer(renderer, p, win_right, win_left, left, right, v, zvyk, quit);
+                left = 0;
+                right = 0;
             }
             if(win_right+win_left<3) SDL_RenderCopy(renderer, Win_round_right_texture, NULL, &win_round);
-            if (p == false && win_right+win_left==3)
+            if (win_right+win_left==3)
             {
                 win_right = 0; win_left = 0;
             }
@@ -365,9 +367,11 @@ void play(SDL_Renderer*& renderer, int table, int zvyk, bool& quit)
                 razn = abs(left - right);
                 proverka(razn);
                 winer(renderer, p, win_right, win_left, left, right, v, zvyk, quit);
+                left = 0;
+                right = 0;
             }
             if (win_left+win_right<3) SDL_RenderCopy(renderer, Win_round_left_texture, NULL, &win_round);
-            if (p == false && win_right + win_left == 3)
+            if (win_right + win_left == 3)
             {
                 win_right = 0; win_left = 0;
             }
