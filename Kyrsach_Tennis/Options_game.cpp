@@ -2,7 +2,6 @@
 #include"main.h"
 void options(SDL_Renderer*& renderer, int& table, int& zvyk, bool& quit)
 {
-    loadnol();
     SDL_Event event;
 
     SDL_Rect option = { 315, 120, 600, 600 };
@@ -65,10 +64,12 @@ void options(SDL_Renderer*& renderer, int& table, int& zvyk, bool& quit)
             if ((x > zvyk_koord.x) && (x<zvyk_koord.x + (zvyk_koord.w / 2)) && (y>zvyk_koord.y) && (y < zvyk_koord.y + zvyk_koord.h))
             {
                 zvyk = 1;
+                loadmusic();
             }
             if ((x > zvyk_koord.x + (zvyk_koord.w / 2)) && (x<zvyk_koord.x + zvyk_koord.w) && (y>zvyk_koord.y && y < zvyk_koord.y + zvyk_koord.h))
             {
                 zvyk = 0;
+                loadnol();
             }
             if ((x > 410 && x < 450 && y>655 && y < 690) || table == 1)
             {

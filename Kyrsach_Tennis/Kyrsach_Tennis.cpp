@@ -112,8 +112,7 @@ int main(int argc, char* args[])
             if (m == false)
             {
                 m = true;
-                if (zvyk == 1) loadmusic();
-                if (zvyk == 0) loadnol();
+                loadmusic();
             }
             SDL_PollEvent(&event);
             if (event.type == SDL_QUIT) quit = true;
@@ -148,7 +147,7 @@ int main(int argc, char* args[])
                 if ((event.button.x > knopka[1].x) && (event.button.x < knopka[1].x + knopka[1].w) && (event.button.y > knopka[1].y) && (event.button.y < knopka[1].y + knopka[1].h))
                 {
                     options(renderer, table, zvyk, quit);
-                    m = false;
+                    if (zvyk == 0) loadnol();
                 }
 
                 if ((event.button.x > knopka[2].x) && (event.button.x < knopka[2].x + knopka[1].w) && (event.button.y > knopka[2].y) && (event.button.y < knopka[2].y + knopka[2].h))

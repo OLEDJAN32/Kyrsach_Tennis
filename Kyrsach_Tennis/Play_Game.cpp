@@ -33,8 +33,8 @@ void sound3()
 
 int napr()
 {
-    int x=rand()%(6-(-6)+1)+(-6);
-    if (x == 6 || x == (-6)) { return x; }
+    int x=rand()%(8-(-8)+1)+(-8);
+    if (x == 8 || x == (-8)) { return x; }
     else { napr(); }
 }
 
@@ -208,12 +208,12 @@ void play(SDL_Renderer*& renderer, int table, int zvyk, bool& quit)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
         x1 += x2;
         y1 += y2;
-        if ((x1 - 20 < Rocket_place.x) && ((y1 < Rocket_place.y+Rocket_place.h+9) && (y1>Rocket_place.y-9)) && (x1>Rocket_place.x+15))
+        if ((x1 - 22 < Rocket_place.x) && ((y1 < Rocket_place.y+Rocket_place.h+9) && (y1>Rocket_place.y-11)) && (x1>Rocket_place.x+17))
         {
             x2 = -x2;
             if(zvyk==1) sound2();
         }
-        if ((x1 + 10 > Rocket_place2.x) && ((y1 < Rocket_place2.y + Rocket_place2.h+9) && (y1 > Rocket_place2.y-9)) && (x1 < Rocket_place2.x-5))
+        if ((x1 + 12 > Rocket_place2.x) && ((y1 < Rocket_place2.y + Rocket_place2.h+9) && (y1 > Rocket_place2.y-11)) && (x1 < Rocket_place2.x-7))
         {
             x2 = -x2;
             if(zvyk==1) sound2();
@@ -409,10 +409,6 @@ void play(SDL_Renderer*& renderer, int table, int zvyk, bool& quit)
     if (p == true)
     {
         SDL_Delay(1000);
-        Mix_FreeMusic(fon_game);
-        Mix_FreeChunk(Sound3);
-        Mix_FreeChunk(Sound2);
-        Mix_FreeChunk(Sound1);
         SDL_DestroyTexture(Win_round_right_texture);
         SDL_DestroyTexture(Win_round_left_texture);
         SDL_DestroyTexture(textTexture2);
@@ -424,4 +420,8 @@ void play(SDL_Renderer*& renderer, int table, int zvyk, bool& quit)
         SDL_DestroyTexture(Tablo);
         SDL_DestroyTexture(Play_fon);
     }
+    Mix_FreeMusic(fon_game);
+    Mix_FreeChunk(Sound3);
+    Mix_FreeChunk(Sound2);
+    Mix_FreeChunk(Sound1);
 }

@@ -11,5 +11,5 @@
 #include"Exit.h"
 #include<Windows.h>
 
-void loadmusic(int zvyk);
+void loadmusic();
 void loadnol();
