@@ -208,12 +208,12 @@ void play(SDL_Renderer*& renderer, int table, int zvyk, bool& quit)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
         x1 += x2;
         y1 += y2;
-        if ((x1 - 22 < Rocket_place.x) && ((y1 < Rocket_place.y+Rocket_place.h+9) && (y1>Rocket_place.y-11)) && (x1>Rocket_place.x+17))
+        if ((x1 - 22 < Rocket_place.x) && ((y1 < Rocket_place.y+Rocket_place.h+11) && (y1>Rocket_place.y-11)) && (x1>Rocket_place.x+17))
         {
             x2 = -x2;
             if(zvyk==1) sound2();
         }
-        if ((x1 + 12 > Rocket_place2.x) && ((y1 < Rocket_place2.y + Rocket_place2.h+9) && (y1 > Rocket_place2.y-11)) && (x1 < Rocket_place2.x-7))
+        if ((x1 + 12 > Rocket_place2.x) && ((y1 < Rocket_place2.y + Rocket_place2.h+11) && (y1 > Rocket_place2.y-11)) && (x1 < Rocket_place2.x-7))
         {
             x2 = -x2;
             if(zvyk==1) sound2();
@@ -246,7 +246,7 @@ void play(SDL_Renderer*& renderer, int table, int zvyk, bool& quit)
             x2 = napr();
             y2 = napr();
         }
-        if ((y1 + 10 > 624) || (y1 - 10 < 200)) 
+        if ((y1 + 13 > 624) || (y1 - 13 < 200)) 
         {
             y2 = -y2;
             if(zvyk==1) sound1();
